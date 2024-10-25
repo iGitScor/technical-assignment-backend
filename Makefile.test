@@ -1,0 +1,8 @@
+# Curl
+# >> Customer
+
+## Create customer (params: CUSTOMER_NAME, CUSTOMER_EMAIL)
+create_customer:
+	curl -X POST http://localhost:3000/customers -H "Content-Type: application/json" --data '{"name": ${CUSTOMER_NAME},"email": ${CUSTOMER_EMAIL}}'
+
+# More Command to easily test before creating automatic tests

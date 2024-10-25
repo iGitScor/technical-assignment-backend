@@ -1,0 +1,35 @@
+services:
+  api:
+    container_name: node-api
+    image: node:20-alpine
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    command: npm run start:${ENV:-"prod"}
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    env_file: ".env"
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=nestjs
+      - DATABASE_PASSWORD=nestjspassword
+      - DATABASE_NAME=nestjsdb
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: nestjs
+      POSTGRES_PASSWORD: nestjspassword
+      POSTGRES_DB: nestjsdb
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
